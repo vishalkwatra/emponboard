@@ -24,18 +24,6 @@ sap.ui.define([
                 this.getView().bindElement('employee>' + sPath);
             },
             onPressSend: function () {
-                $.ajax({
-                    url: "/approval2ui/bpmworkflowruntime/v1/xsrf-token",
-                    method: "GET",
-                    headers: {
-                        "X-CSRF-Token": "Fetch"
-                    },
-                    async: false,
-                    success: function (result, xhr, data) {
-                        console.log(result);
-                        console.log(data);
-                    }
-                });
                 var dataPayLoad =
                 {
                     "definitionId": "workflowapproval2",
@@ -50,21 +38,34 @@ sap.ui.define([
                     }
                 };
                 $.ajax({
-                    url: "/emponboard/bpmworkflowruntime/v1/workflow-instances",
-                    type: "POST",
-                    data: JSON.stringify(dataPayLoad),
+                    url: "/approval2ui/bpmworkflowruntime/v1/xsrf-token",
+                    method: "GET",
                     headers: {
-                        "X-CSRF-Token": token,
-                        "Content-Type": "application/json"
+                        "X-CSRF-Token": "Fetch"
                     },
                     async: false,
-                    success: function (data) {
-                        console.log("The workflow is started");
-                    },
-                    error: function (data) {
-                        console.log("Error Starting", data);
+                    success: function (result, xhr, data) {
+                        var token = data.getResponseHeader("X-CSRF-Token");
+                        $.ajax({
+                            url: "/approval2ui/bpmworkflowruntime/v1/workflow-instances",
+                            type: "POST",
+                            data: JSON.stringify(dataPayLoad),
+                            headers: {
+                                "X-CSRF-Token": token,
+                                "Content-Type": "application/json"
+                            },
+                            async: false,
+                            success: function (data) {
+                                console.log("The workflow is started");
+                            },
+                            error: function (data) {
+                                console.log("Error Starting", data);
+                            }
+                        });
                     }
                 });
+
+
             }
         });
     });

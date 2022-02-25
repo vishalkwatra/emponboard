@@ -1,0 +1,1 @@
+$.context.usertaskinfo = $.usertasks.usertask1.last;
