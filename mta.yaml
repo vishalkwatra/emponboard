@@ -1,0 +1,135 @@
+_schema-version: "3.1"
+ID: emponboard
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: emponboard-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: emponboard-db
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm-ci
+- name: emponboard-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: emponboard-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: emponboard-approuter
+  type: approuter.nodejs
+  path: app
+  requires:
+  - name: emponboard_html_repo_runtime
+  - name: uaa_emponboard
+  - name: workflow_mta2
+  - name: emponboard-dest-srv
+    group: destinations
+    properties:
+      forwardAuthToken: false
+      name: ui5
+      url: https://ui5.sap.com
+  - name: srv-api
+    properties:
+      name: srv-api
+      url: '~{srv-url}'
+      forwardAuthToken: true
+    group: destinations    
+  parameters:
+    disk-quota: 512M
+    memory: 512M
+- name: emponboard_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: emponboard_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - approval2ui.zip
+      name: approval2ui
+      target-path: resources/
+- name: workflow2-approval-module
+  type: com.sap.application.content
+  path: app/workflow2-approval-module
+  requires:
+  - name: workflow_mta2
+    parameters:
+      content-target: true
+- name: approval2ui
+  type: html5
+  path: app/approval2ui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: emponboard-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+  properties:
+    hdi-service-name: ${service-name}
+- name: emponboard_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: uaa_emponboard
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: emponboard-xsuaa-service
+    service-plan: application
+- name: emponboard_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+- name: workflow_mta2
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: workflow
+    service-plan: lite
+- name: emponboard-dest-srv
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: emponboard-dest-srv
+    service-plan: lite
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx -p @sap/cds-dk cds build --production

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="EmployeeService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Employees" EntityType="EmployeeService.Employees"/>
+            </EntityContainer>
+            <EntityType Name="Employees">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="firstName" Type="Edm.String"/>
+                <Property Name="lastName" Type="Edm.String"/>
+                <Property Name="country" Type="Edm.String"/>
+                <Property Name="hireDate" Type="Edm.Date"/>
+                <Property Name="jobTitle" Type="Edm.String"/>
+            </EntityType>
+            <Annotations Target="EmployeeService.Employees/ID">
+                <Annotation Term="Common.Label" String="UUID"/>
+            </Annotations>
+            <Annotations Target="EmployeeService.Employees/firstName">
+                <Annotation Term="Common.Label" String="First Name"/>
+            </Annotations>
+            <Annotations Target="EmployeeService.Employees/lastName">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="EmployeeService.Employees/country">
+                <Annotation Term="Common.Label" String="Country"/>
+            </Annotations>
+            <Annotations Target="EmployeeService.Employees/hireDate">
+                <Annotation Term="Common.Label" String="Hire Date"/>
+            </Annotations>
+            <Annotations Target="EmployeeService.Employees/jobTitle">
+                <Annotation Term="Common.Label" String="Job Title"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,25 @@
+{
+    "authenticationMethod": "route",
+    "routes": [
+        {
+            "source": "^/bpmworkflowruntime/(.*)$",
+            "target": "/$1",
+            "service": "com.sap.bpm.workflow",
+            "endpoint": "workflow_rest_url",
+            "authenticationType": "xsuaa"
+        },
+        {
+            "source": "^/employee(.*)$",
+            "destination": "srv-api",
+            "authenticationType": "xsuaa",
+            "csrfProtection": false
+        },
+        {
+            "source": "^(.*)$",
+            "target": "/approval2ui/$1",
+            "service": "html5-apps-repo-rt",
+            "authenticationType": "xsuaa"
+        }
+    ],
+    "welcomeFile": "/approval2ui"
+}
