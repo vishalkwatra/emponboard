@@ -41,7 +41,8 @@
                             id="hireDate"
                             placeholder="Enter Hire Date"
                             change="handleChangeDate"
-                            value="{path:'employee>hireDate', type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true}}"
+                            valueFormat="yyyy-MM-dd"
+                            value="{path:'employee>hireDate', type:'sap.ui.model.type.Date',formatOptions: { style: 'medium', strictParsing: true}}"
                             class="sapUiSmallMarginBottom"/>
                                 <Label text="Job Title" />
                                 <Input value="{employee>jobTitle}"/>

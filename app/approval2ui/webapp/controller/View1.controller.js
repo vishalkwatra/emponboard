@@ -15,7 +15,7 @@ sap.ui.define([
                         "firstName": "test",
                         "lastName": "",
                         "country": "",
-                        "hireDate": new Date,
+                        "hireDate": "",
                         "jobTitle": ""
                     }
                 });
@@ -25,6 +25,17 @@ sap.ui.define([
             },
             onPressSend: function () {
                 var oEmpDate = this.getView().getModel("employee").getProperty("/employee");
+                var sDate = oEmpDate.hireDate.getDate().toString();
+                var sMonth = oEmpDate.hireDate.getMonth().toString();
+                var sYear = oEmpDate.hireDate.getFullYear().toString();
+
+                if (sMonth.length < 2)
+                    sMonth = '0' + sMonth;
+                if (sDate.length < 2)
+                    sDate = '0' + sDate;
+
+                var sStringDate = sYear.concat('-', sMonth, '-', sDate);
+
                 var dataPayLoad =
                 {
                     "definitionId": "workflowapproval2",
@@ -33,7 +44,7 @@ sap.ui.define([
                             "firstName": oEmpDate.firstName,
                             "lastName": oEmpDate.lastName,
                             "country": oEmpDate.Country,
-                            "hireDate": oEmpDate.hireDate,
+                            "hireDate": sStringDate,
                             "jobTitle": oEmpDate.jobTitle
                         }
                     }

@@ -38,7 +38,7 @@
         },
         {
             "id": "hire_date",
-            "type": "datetime",
+            "type": "string",
             "label": "Hire Date",
             "readOnly": false,
             "value": "${context.empData.hireDate}",
