@@ -1,0 +1,12 @@
+### Create employee entry
+
+POST http://localhost:4004/employee/Employees
+Content-Type: application/json
+
+{
+    "firstName": "testVishal",
+    "lastName": "lastNameVishal",
+    "country": "DE",
+    "hireDate": "2022-02-28",
+    "jobTitle": "Developer"
+}

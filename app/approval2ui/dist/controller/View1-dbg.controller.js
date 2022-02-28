@@ -24,16 +24,17 @@ sap.ui.define([
                 this.getView().bindElement('employee>' + sPath);
             },
             onPressSend: function () {
+                var oEmpDate = this.getView().getModel("employee").getProperty("/employee");
                 var dataPayLoad =
                 {
                     "definitionId": "workflowapproval2",
                     "context": {
                         "empData": {
-                            "firstName": "Carla",
-                            "lastName": "Grant",
-                            "country": "India",
-                            "hireDate": "2020-07-11",
-                            "jobTitle": "General Manager, Industries"
+                            "firstName": oEmpDate.firstName,
+                            "lastName": oEmpDate.lastName,
+                            "country": oEmpDate.Country,
+                            "hireDate": oEmpDate.hireDate,
+                            "jobTitle": oEmpDate.jobTitle
                         }
                     }
                 };

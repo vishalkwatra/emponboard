@@ -12,6 +12,10 @@ modules:
   - name: srv-api
     properties:
       srv-url: ${default-url}
+  properties:
+    SAP_JWT_TRUST_ACL:
+      - clientid: "*"
+        identityzone: "*"    
   parameters:
     buildpack: nodejs_buildpack
   build-parameters:
