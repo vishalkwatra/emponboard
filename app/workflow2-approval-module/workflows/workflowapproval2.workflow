@@ -130,7 +130,7 @@
 		},
 		"9d5c20ef-afbd-408f-bfd0-87eb083e7636": {
 			"classDefinition": "com.sap.bpm.wfs.ServiceTask",
-			"destination": "emponboard2",
+			"destination": "emponboard3",
 			"path": "/employee/Employees",
 			"httpMethod": "POST",
 			"requestVariable": "${context.request.payload}",

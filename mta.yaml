@@ -8,6 +8,7 @@ modules:
   path: gen/srv
   requires:
   - name: emponboard-db
+  - name: uaa_emponboard
   provides:
   - name: srv-api
     properties:
