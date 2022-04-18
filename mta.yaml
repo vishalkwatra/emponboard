@@ -48,8 +48,8 @@ modules:
       forwardAuthToken: true
     group: destinations    
   parameters:
-    disk-quota: 512M
-    memory: 512M
+    disk-quota: 1028M
+    memory: 1028M
 - name: emponboard_ui_deployer
   type: com.sap.application.content
   path: .

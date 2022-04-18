@@ -1,10 +1,11 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageBox"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller) {
+    function (Controller, MessageBox) {
         "use strict";
 
         return Controller.extend("approval2ui.controller.View1", {
@@ -68,12 +69,17 @@ sap.ui.define([
                             },
                             async: false,
                             success: function (data) {
-                                console.log("The workflow is started");
+                                // console.log("The workflow is started");
+                                MessageBox.success("The workflow is started");
                             },
                             error: function (data) {
-                                console.log("Error Starting", data);
+                                // console.log("Error Starting", data);
+                                MessageBox.error("Error in starting worklow");
                             }
                         });
+                    },
+                    error: function (oErr) {
+                        MessageBox.error("Error in starting worklow");
                     }
                 });
 
